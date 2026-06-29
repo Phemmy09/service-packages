@@ -297,26 +297,53 @@
             }
         }
 
-        /* Testimonials Styles */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
+        /* Testimonials Carousel Styles */
+        .carousel-container {
             width: 100%;
             max-width: 1200px;
-            margin-bottom: 40px;
-            transition: all 0.5s ease;
+            margin: 20px auto 70px auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 15px;
+        }
+
+        .carousel-track-container {
+            overflow: hidden;
+            width: 100%;
+            border-radius: 8px;
+            padding: 10px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100%;
+        }
+
+        .carousel-item {
+            flex: 0 0 33.333%;
+            box-sizing: border-box;
+            padding: 0 12px;
         }
 
         @media (max-width: 900px) {
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .carousel-item {
+                flex: 0 0 50%;
             }
         }
 
         @media (max-width: 600px) {
-            .testimonials-grid {
-                grid-template-columns: 1fr;
+            .carousel-item {
+                flex: 0 0 100%;
             }
         }
 
@@ -331,6 +358,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .testimonial-card:hover {
@@ -347,31 +376,50 @@
             filter: contrast(1.02) brightness(1.01);
         }
 
-        .testimonial-card.hidden {
-            display: none;
+        .carousel-nav {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            z-index: 10;
+            flex-shrink: 0;
         }
 
-        .toggle-reviews-btn {
-            background-color: transparent;
-            border: 1px solid #c5a059;
-            color: #c5a059;
-            padding: 12px 30px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 30px;
+        .carousel-nav:hover {
+            background-color: #d91b5c;
+            border-color: #d91b5c;
+            box-shadow: 0 0 15px rgba(217, 27, 92, 0.4);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
             margin-top: 20px;
-            margin-bottom: 60px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .toggle-reviews-btn:hover {
-            background-color: #c5a059;
-            color: #0d0d0d;
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+        .carousel-dot.active {
+            background-color: #d91b5c;
+            width: 24px;
+            border-radius: 10px;
         }
 
         /* Lightbox Modal */
@@ -396,12 +444,13 @@
         }
 
         #lightbox-img {
-            max-width: 90%;
+            max-width: 80%;
             max-height: 85%;
             border-radius: 6px;
             box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
             transform: scale(0.9);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.15s ease;
+            opacity: 1;
         }
 
         #lightbox.active #lightbox-img {
@@ -418,10 +467,60 @@
             cursor: pointer;
             user-select: none;
             transition: color 0.2s ease;
+            z-index: 10005;
         }
 
         #lightbox-close:hover {
             color: #d91b5c;
+        }
+
+        /* Lightbox Navigation */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            z-index: 10002;
+        }
+
+        .lightbox-nav:hover {
+            background-color: #d91b5c;
+            border-color: #d91b5c;
+            box-shadow: 0 0 15px rgba(217, 27, 92, 0.4);
+        }
+
+        .lightbox-nav.prev {
+            left: 40px;
+        }
+
+        .lightbox-nav.next {
+            right: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
+            .lightbox-nav.prev {
+                left: 15px;
+            }
+            .lightbox-nav.next {
+                right: 15px;
+            }
         }
     </style>
 </head>
@@ -430,6 +529,134 @@
         <!-- Title matching the Cinzel serif gold layout -->
         <h1 class="title">Service Packages</h1>
         <p class="subtitle-desc">Browse through 35 modular development, task-based integrations, and end-to-end automation systems packages tailored for any business scale.</p>
+
+        <!-- Client Testimonials Section at the Top -->
+        <div class="carousel-container">
+            <h2 class="title" style="font-size: 2.2rem; margin-bottom: 10px; margin-top: 20px;">Client Reviews</h2>
+            <p class="subtitle-desc" style="margin-bottom: 30px; font-size: 0.9rem; max-width: 600px;">Real feedback and ratings from verified Upwork clients across development, AI solutions, and system automations.</p>
+            
+            <div class="carousel-wrapper">
+                <button class="carousel-nav prev" onclick="moveCarousel(-1)">&#10094;</button>
+                <div class="carousel-track-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Testimonial 1 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(0)">
+                                <img src="testimonials/testimonial_1.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(1)">
+                                <img src="testimonials/testimonial_2.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(2)">
+                                <img src="testimonials/testimonial_3.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 4 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(3)">
+                                <img src="testimonials/testimonial_4.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 5 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(4)">
+                                <img src="testimonials/testimonial_5.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 6 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(5)">
+                                <img src="testimonials/testimonial_6.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 7 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(6)">
+                                <img src="testimonials/testimonial_7.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 8 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(7)">
+                                <img src="testimonials/testimonial_8.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 9 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(8)">
+                                <img src="testimonials/testimonial_9.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 10 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(9)">
+                                <img src="testimonials/testimonial_10.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 11 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(10)">
+                                <img src="testimonials/testimonial_11.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 12 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(11)">
+                                <img src="testimonials/testimonial_12.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 13 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(12)">
+                                <img src="testimonials/testimonial_13.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 14 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(13)">
+                                <img src="testimonials/testimonial_14.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 15 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(14)">
+                                <img src="testimonials/testimonial_15.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 16 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(15)">
+                                <img src="testimonials/testimonial_16.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Testimonial 17 -->
+                        <div class="carousel-item">
+                            <div class="testimonial-card" onclick="openLightbox(16)">
+                                <img src="testimonials/testimonial_17.png" alt="Upwork Review" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-nav next" onclick="moveCarousel(1)">&#10095;</button>
+            </div>
+            
+            <!-- Carousel Dots Indicators -->
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" onclick="closeLightbox()">
+            <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <button class="lightbox-nav prev" onclick="navigateLightbox(-1); event.stopPropagation()">&#10094;</button>
+            <img id="lightbox-img" src="" alt="Enlarged Review" onclick="event.stopPropagation()">
+            <button class="lightbox-nav next" onclick="navigateLightbox(1); event.stopPropagation()">&#10095;</button>
+        </div>
 
         <!-- Filter Tab Buttons -->
         <div class="filter-container">
@@ -992,94 +1219,6 @@
 
         </div>
 
-        <!-- Client Testimonials Header -->
-        <h2 class="title" style="margin-top: 100px; margin-bottom: 20px;">Client Reviews</h2>
-        <p class="subtitle-desc" style="margin-bottom: 50px;">Real feedback and ratings from verified Upwork clients across development, AI solutions, and system automations.</p>
-
-        <!-- Testimonials Grid -->
-        <div class="testimonials-grid" id="testimonialsGrid">
-            <!-- Testimonial 1 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_1.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_1.png')">
-            </div>
-            <!-- Testimonial 2 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_2.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_2.png')">
-            </div>
-            <!-- Testimonial 3 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_3.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_3.png')">
-            </div>
-            <!-- Testimonial 4 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_4.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_4.png')">
-            </div>
-            <!-- Testimonial 5 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_5.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_5.png')">
-            </div>
-            <!-- Testimonial 6 -->
-            <div class="testimonial-card">
-                <img src="testimonials/testimonial_6.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_6.png')">
-            </div>
-            <!-- Testimonial 7 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_7.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_7.png')">
-            </div>
-            <!-- Testimonial 8 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_8.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_8.png')">
-            </div>
-            <!-- Testimonial 9 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_9.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_9.png')">
-            </div>
-            <!-- Testimonial 10 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_10.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_10.png')">
-            </div>
-            <!-- Testimonial 11 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_11.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_11.png')">
-            </div>
-            <!-- Testimonial 12 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_12.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_12.png')">
-            </div>
-            <!-- Testimonial 13 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_13.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_13.png')">
-            </div>
-            <!-- Testimonial 14 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_14.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_14.png')">
-            </div>
-            <!-- Testimonial 15 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_15.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_15.png')">
-            </div>
-            <!-- Testimonial 16 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_16.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_16.png')">
-            </div>
-            <!-- Testimonial 17 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_17.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_17.png')">
-            </div>
-            <!-- Testimonial 18 (Hidden initially) -->
-            <div class="testimonial-card hidden-review hidden">
-                <img src="testimonials/testimonial_18.png" alt="Upwork Review" onclick="openLightbox('testimonials/testimonial_18.png')">
-            </div>
-        </div>
-
-        <button class="toggle-reviews-btn" id="toggleReviewsBtn" onclick="toggleReviews()">View All Reviews</button>
-
-        <!-- Lightbox Modal -->
-        <div id="lightbox" onclick="closeLightbox()">
-            <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
-            <img id="lightbox-img" src="" alt="Enlarged Review" onclick="event.stopPropagation()">
-        </div>
-
         <!-- Inward-pointing arrows and contact notice matching the image -->
         <div class="footer-banner">
             <span class="arrow-pointer left"></span>
@@ -1088,8 +1227,129 @@
         </div>
     </div>
 
-    <!-- Interactive Filtering & Lightbox Script -->
+    <!-- Interactive Filtering, Carousel & Lightbox Navigation Script -->
     <script>
+        // List of all 17 testimonial image sources
+        const testimonialImages = [
+            'testimonials/testimonial_1.png',
+            'testimonials/testimonial_2.png',
+            'testimonials/testimonial_3.png',
+            'testimonials/testimonial_4.png',
+            'testimonials/testimonial_5.png',
+            'testimonials/testimonial_6.png',
+            'testimonials/testimonial_7.png',
+            'testimonials/testimonial_8.png',
+            'testimonials/testimonial_9.png',
+            'testimonials/testimonial_10.png',
+            'testimonials/testimonial_11.png',
+            'testimonials/testimonial_12.png',
+            'testimonials/testimonial_13.png',
+            'testimonials/testimonial_14.png',
+            'testimonials/testimonial_15.png',
+            'testimonials/testimonial_16.png',
+            'testimonials/testimonial_17.png'
+        ];
+
+        let currentLightboxIndex = 0;
+        let currentCarouselIndex = 0;
+        let itemsPerView = 3;
+        let autoPlayInterval = null;
+
+        // Initialize Carousel
+        function initCarousel() {
+            updateItemsPerView();
+            createDots();
+            showSlide(0);
+            startAutoPlay();
+        }
+
+        function updateItemsPerView() {
+            const width = window.innerWidth;
+            if (width <= 600) {
+                itemsPerView = 1;
+            } else if (width <= 900) {
+                itemsPerView = 2;
+            } else {
+                itemsPerView = 3;
+            }
+        }
+
+        function createDots() {
+            const dotsContainer = document.getElementById('carouselDots');
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            const totalSlides = testimonialImages.length - itemsPerView + 1;
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    stopAutoPlay();
+                    showSlide(i);
+                    startAutoPlay();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function showSlide(index) {
+            const track = document.getElementById('carouselTrack');
+            if (!track) return;
+            const totalSlides = testimonialImages.length - itemsPerView + 1;
+            
+            if (index < 0) {
+                currentCarouselIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentCarouselIndex = 0;
+            } else {
+                currentCarouselIndex = index;
+            }
+
+            const itemWidth = 100 / itemsPerView;
+            track.style.transform = `translateX(-${currentCarouselIndex * itemWidth}%)`;
+
+            // Update dots
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === currentCarouselIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function moveCarousel(direction) {
+            stopAutoPlay();
+            showSlide(currentCarouselIndex + direction);
+            startAutoPlay();
+        }
+
+        function startAutoPlay() {
+            if (autoPlayInterval) clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(() => {
+                showSlide(currentCarouselIndex + 1);
+            }, 4000);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            const prevItems = itemsPerView;
+            updateItemsPerView();
+            if (prevItems !== itemsPerView) {
+                createDots();
+                showSlide(0);
+            }
+        });
+
+        // Filter Packages Category
         function filterCategory(category) {
             // Update active state on buttons
             const buttons = document.querySelectorAll('.filter-btn');
@@ -1117,48 +1377,56 @@
             });
         }
 
-        let reviewsExpanded = false;
-
-        function toggleReviews() {
-            const hiddenReviews = document.querySelectorAll('.hidden-review');
-            const btn = document.getElementById('toggleReviewsBtn');
-            reviewsExpanded = !reviewsExpanded;
-
-            hiddenReviews.forEach(card => {
-                if (reviewsExpanded) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            if (reviewsExpanded) {
-                btn.textContent = "Show Less";
-            } else {
-                btn.textContent = "View All Reviews";
-                document.getElementById('testimonialsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        function openLightbox(src) {
+        // Lightbox Functions
+        function openLightbox(index) {
+            currentLightboxIndex = index;
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
-            lightboxImg.src = src;
+            lightboxImg.src = testimonialImages[currentLightboxIndex];
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            stopAutoPlay();
         }
 
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
+            startAutoPlay();
         }
 
-        // Close lightbox on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
+        function navigateLightbox(direction) {
+            currentLightboxIndex += direction;
+            if (currentLightboxIndex < 0) {
+                currentLightboxIndex = testimonialImages.length - 1;
+            } else if (currentLightboxIndex >= testimonialImages.length) {
+                currentLightboxIndex = 0;
             }
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.style.opacity = 0;
+            setTimeout(() => {
+                lightboxImg.src = testimonialImages[currentLightboxIndex];
+                lightboxImg.style.opacity = 1;
+            }, 100);
+        }
+
+        // Key press handlers
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowRight') {
+                    navigateLightbox(1);
+                } else if (e.key === 'ArrowLeft') {
+                    navigateLightbox(-1);
+                } else if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            }
+        });
+
+        // Run init on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initCarousel();
         });
     </script>
 </body>
