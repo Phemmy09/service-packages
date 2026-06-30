@@ -659,6 +659,83 @@
                 display: none;
             }
         }
+
+        /* Search Bar Styles */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px auto 40px auto;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 5px 20px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .search-container:focus-within {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(217, 27, 92, 0.5); /* Primary Magenta glow */
+            box-shadow: 0 0 20px rgba(217, 27, 92, 0.25), 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b3b3b3;
+            margin-right: 12px;
+        }
+
+        .search-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: color 0.3s ease;
+        }
+
+        .search-container:focus-within .search-icon svg {
+            color: #d91b5c;
+        }
+
+        #searchInput {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            padding: 10px 5px;
+            font-weight: 400;
+        }
+
+        #searchInput::placeholder {
+            color: #666666;
+            font-weight: 300;
+        }
+
+        #clearSearchBtn {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #b3b3b3;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        #clearSearchBtn:hover {
+            color: #d91b5c;
+        }
     </style>
 </head>
 <body>
@@ -793,6 +870,17 @@
             <button class="lightbox-nav prev" onclick="navigateLightbox(-1); event.stopPropagation()">&#10094;</button>
             <img id="lightbox-img" src="" alt="Enlarged Review" onclick="event.stopPropagation()">
             <button class="lightbox-nav next" onclick="navigateLightbox(1); event.stopPropagation()">&#10095;</button>
+        </div>
+
+        <!-- Modern Search Bar -->
+        <div class="search-container">
+            <span class="search-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </span>
+            <input type="text" id="searchInput" placeholder="Search for a service or keyword..." oninput="handleSearch(this.value)">
+            <button id="clearSearchBtn" onclick="clearSearch()" style="display: none;">&times;</button>
         </div>
 
         <!-- Filter Tab Buttons -->
@@ -1486,6 +1574,10 @@
             }
         });
 
+        // Filtering variables
+        let selectedCategory = 'all';
+        let searchQuery = '';
+
         // Filter Packages Category
         function filterCategory(category) {
             // Update active state on buttons
@@ -1493,23 +1585,70 @@
             buttons.forEach(btn => btn.classList.remove('active'));
             
             // Highlight the clicked button
-            const clickedBtn = event.currentTarget;
-            if (clickedBtn) {
-                clickedBtn.classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            } else {
+                // Find and highlight matching button
+                const matchingBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(`'${category}'`));
+                if (matchingBtn) matchingBtn.classList.add('active');
             }
 
-            // Filter the cards
+            selectedCategory = category;
+            applyFilters();
+        }
+
+        // Handle search query updates
+        function handleSearch(value) {
+            searchQuery = value.toLowerCase().trim();
+            
+            // Show/hide clear button
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                clearBtn.style.display = searchQuery ? 'flex' : 'none';
+            }
+            
+            applyFilters();
+        }
+
+        // Clear search input
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            if (input) {
+                input.value = '';
+                handleSearch('');
+            }
+        }
+
+        // Apply both category and search query filters to cards
+        function applyFilters() {
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
-                if (category === 'all') {
+                // Ignore testimonial cards which also have the card class (inside .carousel-track)
+                if (card.closest('.carousel-track')) return;
+
+                const cardCat = card.getAttribute('data-category') || '';
+                
+                // Get name, price, and features list text
+                const badge = card.querySelector('.badge');
+                const price = card.querySelector('.price');
+                const features = card.querySelector('.features-list');
+                
+                // Concatenate content to search in specific text fields rather than raw child structures
+                const badgeText = badge ? badge.textContent.toLowerCase() : '';
+                const priceText = price ? price.textContent.toLowerCase() : '';
+                const featuresText = features ? features.textContent.toLowerCase() : '';
+                const cardSearchString = `${badgeText} ${priceText} ${featuresText}`;
+
+                // Check Category Match
+                const matchesCategory = (selectedCategory === 'all' || cardCat === selectedCategory);
+                
+                // Check Search Query Match
+                const matchesSearch = !searchQuery || cardSearchString.includes(searchQuery);
+
+                if (matchesCategory && matchesSearch) {
                     card.classList.remove('hidden');
                 } else {
-                    const cardCat = card.getAttribute('data-category');
-                    if (cardCat === category) {
-                        card.classList.remove('hidden');
-                    } else {
-                        card.classList.add('hidden');
-                    }
+                    card.classList.add('hidden');
                 }
             });
         }
