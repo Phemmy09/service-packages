@@ -87,21 +87,30 @@ I offer 35 structured, outcome-based pricing models designed to suit different o
 *   **GHL Pipeline Automations ($500)**: Trigger stage actions, status change logging, team tasks notification, client SMS sequences.
 *   **Google Tag Manager ($500)**: GA4 Property setup, GTM container configuration, event tag mapping, checkout funnel tracking.
 *   **Python Scraping API ($650)**: FastAPI backend server, BeautifulSoup/Scrapy models, Render Cloud hosting, authenticated JSON endpoints.
+*   **Scholarship App Bot ($750)**: Automated scholarship application form filler, essay analysis and drafting using Claude API, eligibility matches scanner, deadline calendar alerts.
 *   **Beginner Bundle ($800)**: Email/SMS automation, social auto-responder, basic CRM synchronization, 14 days support.
 *   **Supabase Schema ($800)**: Relational table setup, database views & indexes, Row Level Security (RLS) policies, FastAPI hooks.
+*   **School AI Assistant ($1,000)**: Course syllabus & schedules training database, student FAQ responder chatbot, homework checking guide, parent update automations.
 *   **AI Feasibility Audit ($1,200)**: Bottleneck assessment, ROI & budget projections, system feasibility map, architectural blueprints.
+*   **Personal Intelligence Scraper ($1,200)**: Custom web data scraper tailored to your personal interests, Vector database (Supabase) integration, daily summarized intelligence digest.
 *   **AI Digital Twin / Mentor Clone ($1,500)**: LLM fine-tuning on custom files/transcripts, Influencer/Mentor tone mapping, WhatsApp/Telegram bot integration, ask Qs 24/7 without recurring fees.
 *   **RAG Widget API ($1,500)**: Custom JS IIFE script, FastAPI vector search hook, single-document custom knowledge base, web widget.
+*   **Restaurant AI Assistant ($1,500)**: Automated phone reservation voice agent, interactive menu item Q&A, real-time booking update logs to Google Sheets.
+*   **Exam Prep AI Engine ($1,600)**: Trained on course curriculum documents/PDFs, generates mock practice exams, timed simulation mode, interactive scoring & weakness diagnostics.
 *   **Lead Gen & Validation Pipeline ($1,800)**: Automated web directories scraper, validation engine filtering fakes/landlines, GHL/Hubspot CRM sync.
+*   **Personal AI Task Agent ($2,200)**: Fine-tuned personal agent mimicking your voice and style, auto-drafts replies for emails/texts, Calendly meeting coordinator, executes daily workflows.
 *   **Professional Automation ($2,500)**: Sales funnel build, website design (up to 10 pages), marketing automation, FAQs chatbot support.
 *   **pgvector Search ($3,000)**: OpenAI text-embeddings-3 mapping, Supabase pgvector indexing, embeddings ingestion pipeline, match queries.
 
 ### C. Premium AI & Enterprise Systems ($3,500 – $30,000)
 *   **Vapi / Retell Voice Bot ($3,500)**: Low-latency voice configuration, prompt engineering, Airtable logs, Twilio routing, 30 days tweaks.
+*   **Document Verification System ($3,500)**: Optical character recognition (OCR) parsing, signature fraud detection logic, document approval pipeline routing, secure logger logs.
+*   **AI Engineering Design ($4,500)**: Custom systems topology layouts, multi-agent logic flow design blueprints, database capacity analyses, threat modeling checks.
 *   **Web App Development ($5,000)**: Full-stack Next.js web application, Supabase database, User Auth & Row Level Security (RLS), custom dashboard, Stripe payments sync.
 *   **Premium System ($5,000)**: Full Brand Identity Design, comprehensive website, social media management automation, Custom AI Agent.
 *   **Mobile App Dev ($7,500)**: React Native / Flutter cross-build, iOS & Android App Store publishing, synced database API hooks, push notifications, SMS alerts.
 *   **Enterprise Custom ($10,000)**: Custom Next.js SaaS Web App, FastAPI Serverless Backend, voice bot integration, pgvector DB, n8n multi-agent.
+*   **AI Operating System ($15,000)**: Multi-agent routing engine, unified workspace admin dashboard, local container execution sandbox, telemetry sync.
 *   **Exclusive Retainer ($30,000)**: Full Brand Identity Design/year, website, social & marketing automation/year, dedicated Systems Architect (15 hrs/wk).
 
 ---
